@@ -51,4 +51,9 @@ module.exports = {
 }
 ```
 
+## Options
+
+**add (default: false)**
+Activily add "clip" when "hidden" is found.
+
 [official docs]: https://github.com/postcss/postcss#usage
