@@ -1,4 +1,4 @@
-module.exports = () => ({
+module.exports = (options = {}) => ({
   postcssPlugin: 'postcss-overflow-clip',
   Declaration: {
     overflow(decl) {
@@ -18,7 +18,7 @@ module.exports = () => ({
       }
 
       // activily add clip if hidden is found
-      if (propValue === 'hidden') {
+      if (propValue === 'hidden' && options.add) {
         decl.cloneAfter({value: 'clip'})
       }
     }
