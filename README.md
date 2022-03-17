@@ -1,6 +1,6 @@
 # PostCSS Overflow Clip
 
-[PostCSS] plugin that adds [`overvlow: clip`](https://developer.chrome.com/blog/new-in-chrome-90/#overflow-clip) whenever `overflow: hidden` is used and vice versa.
+[PostCSS] plugin that adds [`overflow: clip`](https://developer.chrome.com/blog/new-in-chrome-90/#overflow-clip) whenever `overflow: hidden` is used and vice versa.
 
 [PostCSS]: https://github.com/postcss/postcss
 
