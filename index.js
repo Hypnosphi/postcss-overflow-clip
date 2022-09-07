@@ -3,10 +3,10 @@
 module.exports = function (options = {}) {
   function addFallback (decl) {
     const currentPropName = decl.prop;
-    const prevPropName = decl.prev().prop;
+    const prevDecl = decl.prev();
 
     // prevent duplicating fallbacks
-    if (prevPropName === currentPropName) return;
+    if (prevDecl && prevDecl.prop === currentPropName) return;
 
     const propValue = decl.value;
 
