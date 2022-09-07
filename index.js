@@ -1,27 +1,40 @@
-module.exports = (options = {}) => ({
-  postcssPlugin: 'postcss-overflow-clip',
-  Declaration: {
-    overflow(decl) {
-      const blockOverflowProps = decl.parent.nodes.filter(otherDecl => {
-        return otherDecl.prop === 'overflow'
-      });
+'use strict';
 
-      // don't do anything when more than one overflow declaration is found
-      if (blockOverflowProps.length > 1) return;
+module.exports = function (options = {}) {
+  function addFallback (decl) {
+    const currentPropName = decl.prop;
+    const prevDecl = decl.prev();
 
-      let propValue = decl.value;
+    // prevent duplicating fallbacks
+    if (prevDecl && prevDecl.prop === currentPropName) return;
 
-      // inject clip fallback
-      if (propValue === 'clip') {
-        decl.cloneBefore({value: 'hidden'})
-        return;
-      }
+    const propValue = decl.value;
 
-      // activily add clip if hidden is found
-      if (propValue === 'hidden' && options.add) {
-        decl.cloneAfter({value: 'clip'})
-      }
+    // inject clip fallback
+    if (propValue === 'clip') {
+      decl.cloneBefore({ value: 'hidden' });
+      return;
+    }
+
+    // activily add clip if hidden is found
+    if (propValue === 'hidden' && options.add) {
+      decl.cloneAfter({ value: 'clip' });
     }
   }
-})
-module.exports.postcss = true
+
+  const Declaration = {
+    'overflow': addFallback,
+    'overflow-x': addFallback,
+    'overflow-y': addFallback,
+    'overflow-inline': addFallback,
+    'overflow-block': addFallback
+  };
+
+
+  return {
+    postcssPlugin: 'postcss-overflow-clip',
+    Declaration: Declaration
+  };
+};
+
+module.exports.postcss = true;
