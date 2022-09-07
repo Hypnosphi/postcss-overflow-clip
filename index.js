@@ -5,13 +5,11 @@ module.exports = (options = {}) => ({
 
   Declaration: {
     overflow (decl) {
-      const blockOverflowProps = decl.parent.nodes.filter((otherDecl) => {
-        const isOverflowProperty = otherDecl.prop === 'overflow';
-        return isOverflowProperty;
-      });
+      const currentPropName = decl.prop;
+      const prevPropName = decl.prev().prop;
 
-      // don't do anything when more than one overflow declaration is found
-      if (blockOverflowProps.length > 1) return;
+      // prevent duplicating fallbacks
+      if (prevPropName === currentPropName) return;
 
       const propValue = decl.value;
 
