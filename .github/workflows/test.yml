@@ -16,9 +16,9 @@ jobs:
         with:
           node-version: 15
       - name: Install dependencies
-        run: pnpm install
+        run: npx pnpm install
       - name: Run tests
-        run: pnpm run test
+        run: npx pnpm run test
   short:
     runs-on: ubuntu-latest
     strategy:
