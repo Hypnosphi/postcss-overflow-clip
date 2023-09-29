@@ -1,6 +1,6 @@
 {
   "name": "postcss-overflow-clip",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "PostCSS plugin that adds `overvlow: clip` whenever `overflow: hidden` is used and vice versa",
   "keywords": [
     "postcss",
@@ -22,12 +22,12 @@
   },
   "devDependencies": {
     "clean-publish": "^4.2.0",
-    "eslint": "^8.45.0",
-    "eslint-plugin-jest": "^27.2.3",
-    "jest": "^29.6.1",
-    "lint-staged": "^13.2.3",
-    "postcss": "^8.4.26",
-    "simple-git-hooks": "^2.8.1"
+    "eslint": "^8.50.0",
+    "eslint-plugin-jest": "^27.4.0",
+    "jest": "^29.7.0",
+    "lint-staged": "^14.0.1",
+    "postcss": "^8.4.31",
+    "simple-git-hooks": "^2.9.0"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
