@@ -1,3 +1,5 @@
+/* eslint-disable no-autofix/strict */
+
 'use strict';
 
 module.exports = function (options = {}) {
@@ -23,17 +25,16 @@ module.exports = function (options = {}) {
   }
 
   const Declaration = {
-    'overflow': addFallback,
+    overflow: addFallback,
     'overflow-x': addFallback,
     'overflow-y': addFallback,
     'overflow-inline': addFallback,
-    'overflow-block': addFallback
+    'overflow-block': addFallback,
   };
-
 
   return {
     postcssPlugin: 'postcss-overflow-clip',
-    Declaration: Declaration
+    Declaration: Declaration,
   };
 };
 
