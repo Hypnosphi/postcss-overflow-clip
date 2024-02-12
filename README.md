@@ -1,4 +1,6 @@
-# PostCSS Overflow Clip
+# [deprecated] PostCSS Overflow Clip
+
+Use https://www.npmjs.com/package/postcss-overflow-fallbacks instead. Which also supports overflow: overlay and supports two-value syntaxes.
 
 [PostCSS] plugin that adds [`overflow: clip`](https://developer.chrome.com/blog/new-in-chrome-90/#overflow-clip) whenever `overflow: hidden` is used and vice versa.
 
