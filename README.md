@@ -1,30 +1,60 @@
-# [deprecated] PostCSS Overflow Clip
+# PostCSS Overflow Clip
 
-Use https://www.npmjs.com/package/postcss-overflow-fallbacks instead. Which also supports overflow: overlay and supports two-value syntaxes.
+[PostCSS] plugin that adds [`overflow: clip`](https://developer.chrome.com/blog/new-in-chrome-90/#overflow-clip) whenever `overflow: hidden` is used.
 
-[PostCSS] plugin that adds [`overflow: clip`](https://developer.chrome.com/blog/new-in-chrome-90/#overflow-clip) whenever `overflow: hidden` is used and vice versa.
+If you want fallbacks for `overflow: clip`, please use https://www.npmjs.com/package/postcss-overflow-fallbacks
 
 [PostCSS]: https://github.com/postcss/postcss
 
 ```css
 .foo {
-    overflow: clip;
+    overflow-x: clip;
 }
 
 .bar {
-    overflow: hidden;
+    overflow: auto hidden;
+    overflow-block: hidden;
 }
 ```
 
+becomes
+
 ```css
 .foo {
-    overflow: hidden;
-    overflow: clip;
+    overflow-x: clip;
 }
 
 .bar {
-    overflow: hidden;
-    overflow: clip;
+    overflow: auto hidden;
+    overflow: auto clip;
+    overflow-block: hidden;
+    overflow-block: clip;
+}
+```
+
+With `preserve: false`:
+
+```css
+.foo {
+    overflow-x: clip;
+}
+
+.bar {
+    overflow: auto hidden;
+    overflow-block: hidden;
+}
+```
+
+becomes
+
+```css
+.foo {
+    overflow-x: clip;
+}
+
+.bar {
+    overflow: auto clip;
+    overflow-block: clip;
 }
 ```
 
@@ -55,7 +85,5 @@ module.exports = {
 
 ## Options
 
-**add (default: false)**
-Activily add "clip" when "hidden" is found.
-
-[official docs]: https://github.com/postcss/postcss#usage
+**preserve (default: true)**
+Fully replace `hidden` with `clip` without any fallback.

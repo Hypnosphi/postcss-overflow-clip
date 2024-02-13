@@ -2,34 +2,61 @@
 
 'use strict';
 
-module.exports = function (options = {}) {
-  function addFallback (decl) {
-    const currentPropName = decl.prop;
-    const prevDecl = decl.prev();
+const valueParser = require('postcss-value-parser');
 
-    // prevent duplicating fallbacks
-    if (prevDecl && prevDecl.prop === currentPropName) return;
+function getNewValue ({ prop, value }) {
+  if (value === 'hidden') return 'clip';
+  if (prop !== 'overflow') return value;
 
-    const propValue = decl.value;
+  const parsedValues = valueParser(value);
 
-    // inject clip fallback
-    if (propValue === 'clip') {
-      decl.cloneBefore({ value: 'hidden' });
-      return;
-    }
+  if (parsedValues.nodes.length < 3) return value;
 
-    // activily add clip if hidden is found
-    if (propValue === 'hidden' && options.add) {
-      decl.cloneAfter({ value: 'clip' });
+  parsedValues.walk((node) => {
+    if (node.type !== 'word') return;
+    if (node.value !== 'hidden') return;
+    node.value = 'clip';
+  });
+
+  return parsedValues.toString();
+}
+
+module.exports = function exports (options = {}) {
+  const {
+    preserve = true,
+  } = options;
+
+  if ('add' in options || 'upgradeHiddenToClip' in options) {
+    throw new Error('the `add` and `upgradeHiddenToClip` options are removed. This plugin now always adds clip. For a fallback for clip use the `postcss-overflow-fallbacks` plugin instead.');
+  }
+
+  function handleDecl (decl) {
+    const { prop, value, important } = decl;
+
+    const newValue = getNewValue(decl);
+    if (newValue === value) return;
+
+    // check if next declaration is sufficient
+    const nextDecl = decl.next();
+    if (nextDecl
+      && nextDecl.prop === prop
+      && nextDecl.value === newValue
+      && (!important || nextDecl.important)
+    ) return;
+
+    if (preserve) {
+      decl.cloneAfter({ value: newValue });
+    } else {
+      decl.value = newValue;
     }
   }
 
   const Declaration = {
-    overflow: addFallback,
-    'overflow-x': addFallback,
-    'overflow-y': addFallback,
-    'overflow-inline': addFallback,
-    'overflow-block': addFallback,
+    overflow: handleDecl,
+    'overflow-x': handleDecl,
+    'overflow-y': handleDecl,
+    'overflow-inline': handleDecl,
+    'overflow-block': handleDecl,
   };
 
   return {

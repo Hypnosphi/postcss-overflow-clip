@@ -1,6 +1,6 @@
 {
   "name": "postcss-overflow-clip",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "PostCSS plugin that adds `overvlow: clip` whenever `overflow: hidden` is used and vice versa",
   "keywords": [
     "postcss",
@@ -43,5 +43,8 @@
       "es2022": true,
       "node": true
     }
+  },
+  "dependencies": {
+    "postcss-value-parser": "^4.2.0"
   }
 }
